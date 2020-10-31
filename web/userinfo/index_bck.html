@@ -1,0 +1,331 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <!-- MDBootstrap Datatables  -->
+        <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.js"   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="   crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <!-- MDBootstrap Datatables  -->
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+        <style>
+            table td {word-wrap:break-word;}
+
+            @media (min-width: 576px) {
+                table td{
+                        font-size: 16px;
+                }
+            }
+
+            @media (max-width: 575px) {
+                    table td{
+                        font-size: 14px;
+                    }
+            }
+
+            @media(min-width: 651px){
+                .Title {
+                    width: 40%;
+                }
+                .Score {
+                    width: 15%;
+                }
+                .Lamp {
+                    width: 15%;
+                }
+                .Rank {
+                    display: normal;
+                    width: 15%;
+                }
+                .Ranking {
+                    width: 15%;
+                }
+            }
+
+            @media(max-width: 650px){
+                .Title {
+                    width: 40%;
+                }
+                .Score {
+                    width: 20%;
+                }
+                .Lamp {
+                    width: 20%;
+                }
+                .Rank {
+                    display: none;
+                }
+                .Ranking {
+                    width: 20%;
+                }
+            }
+
+        </style>
+
+        <script>
+            $(document).ready(function () {
+                $.getJSON('https://tck4ffl9ze.execute-api.us-east-2.amazonaws.com/MainPage/index', function (data) {
+                    var url = new URL(window.location.href);
+                    var username = url.searchParams.get('username');
+
+                    $('h1').text(decodeURIComponent(username));
+                    $('#djdata').attr('href', 'https://p.eagate.573.jp/game/2dx/26/rival/rival_search.html?iidxid='+ username + '&mode=1');
+
+                    // var html = '<a>'+ username +'</a><a href="https://p.eagate.573.jp/game/2dx/26/rival/rival_search.html?iidxid='+ username + '&amp;mode=1" target="_blank">Userpage</a>'
+                    // $("#username").append(html);
+                    $.getJSON('https://tck4ffl9ze.execute-api.us-east-2.amazonaws.com/MainPage/userinfo/' + encodeURIComponent(username), function (data) {
+                        //console.log(data);
+                        var html = [];
+
+                        function jsonsort(a, b) {
+                            if (a.Title > b.Title) {
+                                return 1;
+                            }
+                            else {
+                                return -1;
+                            }
+                        }
+
+                        //data.sort(jsonsort);
+
+                        $.each(data, function (i, item) {
+                            html.push('<tr height="43" style = "cursor:pointer" onClick="location.href = \'../songinfo/index.html?title=' + encodeURIComponent(item.Title) + '\'">');
+                            html.push('<td  >' + item.Title + '</td>');
+                            html.push('<td  >' + item.Score + '</td>');
+
+                            switch (item.Lamp) {
+                                case 7:
+                                    html.push('<td  class="Lamp" style="color:cyan" value=7>' + "FC" + '</td>');
+                                    break;
+                                case 6:
+                                    html.push('<td  class="Lamp" style="color:gold" value=6>' + "EX" + '</td>');
+                                    break;
+                                case 5:
+                                    html.push('<td  class="Lamp" style="color:red" value=5>' + "HC" + '</td>');
+                                    break;
+                                case 4:
+                                    html.push('<td  class="Lamp" style="color:blue" value=4>' + "CL" + '</td>');
+                                    break;
+                                case 3:
+                                    html.push('<td  class="Lamp" style="color:limegreen" value=3>' + "EC" + '</td>');
+                                    break;
+                                case 2:
+                                    html.push('<td  class="Lamp" style="color:blueviolet" value=2>' + "AC" + '</td>');
+                                    break;
+                                case 1:
+                                    html.push('<td  class="Lamp" style="color:gray" value=1>' + "FL" + '</td>');
+                                    break;
+                                case 0:
+                                    html.push('<td  class="Lamp" style="color:black" value=0>' + "NP" + '</td>');
+                                    break;
+                            }
+                            switch (item.Rank) {
+                                case 8:
+                                    html.push('<td  class="Rank">' + "AAA" + '</td>');
+                                    break;
+                                case 7:
+                                    html.push('<td  class="Rank">' + "AA" + '</td>');
+                                    break;
+                                case 6:
+                                    html.push('<td  class="Rank">' + "A" + '</td>');
+                                    break;
+                                case 5:
+                                    html.push('<td  class="Rank">' + "B" + '</td>');
+                                    break;
+                                case 4:
+                                    html.push('<td  class="Rank">' + "C" + '</td>');
+                                    break;
+                                case 3:
+                                    html.push('<td  class="Rank">' + "D" + '</td>');
+                                    break;
+                                case 2:
+                                    html.push('<td  class="Rank">' + "E" + '</td>');
+                                    break;
+                                case 1:
+                                    html.push('<td  class="Rank">' + "F" + '</td>');
+                                    break;
+                                case 0:
+                                    html.push('<td  class="Rank">' + "---" + '</td>');
+                                    break;
+                            }
+                            
+                            
+                            html.push('<td  >' + item.Ranking + '</td>');
+                            html.push('</tr>');
+                        });
+
+                        $("#rankboard").html(html.join(''));
+
+                        
+
+                        (function ($) {
+
+
+                            var unique = 0;
+                            var types = $.fn.dataTable.ext.type;
+
+                            // Using form $.fn.dataTable.enum breaks at least YuiCompressor since enum is
+                            // a reserved word in JavaScript
+                            $.fn.dataTable['enum'] = function (arr) {
+                                var name = 'enum-' + (unique++);
+                                var lookup = window.Map ? new Map() : {};
+
+                                for (var i = 0, ien = arr.length ; i < ien ; i++) {
+                                    lookup[arr[i]] = i;
+                                }
+
+                                // Add type detection
+                                types.detect.unshift(function (d) {
+                                    return lookup[d] !== undefined ?
+                                        name :
+                                        null;
+                                });
+
+                                // Add sorting method
+                                types.order[name + '-pre'] = function (d) {
+                                    return lookup[d];
+                                };
+                            };
+
+
+                        })(jQuery);
+                        $.fn.dataTable.enum(['FC', 'EX', 'HC', 'CL', 'EC', 'AC', 'FL', 'NP']);
+                        $.fn.dataTable.enum(['AAA', 'AA', 'A', 'B', 'C', 'D', 'E', 'F', '---']);
+
+                        $('#maintable').DataTable({
+                            "searching": false,
+                            "paging": false,
+                            "bInfo": false
+                        });
+
+                        // $('tbody tr').click(function(){
+                        //     window.location = $(this).attr('href');
+                        //     return false;
+                        // });
+                        // $('.dataTables_length').addClass('bs-select');
+                    });
+                });
+
+                
+            });
+            function search() {
+                var input = document.getElementById('searchinput');
+                var filter = input.value.toUpperCase();
+                var board = document.getElementById('rankboard');
+                var tr = board.getElementsByTagName('tr');
+                var td;
+
+
+                for (var i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName('td')[0].innerText;
+                    if (td.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    }
+                    else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+            function GotoUserpage() {
+                var DJID = $("#DJID").val();
+                DJID = DJID.replace("-", "");
+                location.href = './userinfo/index.html?username=' + encodeURIComponent(DJID);
+            }
+        </script>
+    </head>
+    <body>
+        <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark" style="transition: top 0.2s ease-out">
+            <a class="navbar-brand" href="../" style="font-size:xx-large">IIDX Info</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse my-md-0" style="float:right" id="navbarsExample04">
+                <ul class="navbar-nav mr-auto">
+
+                </ul>
+                <form class="mt-3 w-100" onsubmit="return false;">
+                    <div class="form-row mr-0">
+                        <div class="form-group col-md-9 col-lg-10">
+                            <input class="form-control" onkeyup="search()" id="searchinput" type="text" placeholder="Title Search">
+                        </div>
+                        <div class="col-md-3 col-lg-2">
+                            <div class="dropdown">
+                                <button class="btn btn-light dropdown-toggle btn-block" id="userpage_dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding-bottom:6px;padding-top:6px">
+                                    Userpage
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-left" style="padding-left:6px;padding-right:6px" aria-labelledby="dropdownMenuButton">
+                                    <input class="form-control" id="DJID" type="text" placeholder="DJID" style="margin-bottom:6px"/>
+                                    <input type="button" class="btn btn-dark" value="Go" onclick="GotoUserpage()"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </nav>
+
+        <div class = "d-flex pt-3 px-4 mx-auto my-2" style="max-width: 768px;">
+            <div class = "justify-content-center pb-2 border-bottom" style = "width:100%; word-break: break-word; text-align: center">
+                    <h1 class = "h1 text-center">  </h1>
+                    <a href="#" id="djdata" class="badge badge-primary mx-auto" target="_blank">DJ Data</a>
+            </div>
+            
+        </div>
+
+        <div class="table-responsive" id = "tbdv" >
+            <table id="maintable" class="table table-hover mx-auto" style="max-width:768px; width:100%; table-layout : fixed;">
+                <thead class="thead-light">
+                <th scope="col" class="Title" >Title</th>
+                <th scope="col" class="Score">Score</th>
+                <th scope="col" class="Lamp" >Lamp</th>
+                <th scope="col" class="Rank">Rank</th>
+                <th scope="col" class="Ranking">Ranking</th>
+                </thead>
+                <tbody id="rankboard"></tbody>
+            </table>
+        </div>
+
+    
+        <!-- Optional JavaScript -->
+    <script>
+        var didScroll;
+        var lastScrollTop = 0;
+        var delta = 48;
+        var navbarHeight = $('nav').outerHeight();
+        $(window).scroll(function(event){
+            didScroll = true;
+        });
+        setInterval(function() {
+            if (didScroll) {
+                hasScrolled();
+                didScroll = false;
+            }
+        }, 250);
+        function hasScrolled() {
+            var st = $(this).scrollTop();
+            if(Math.abs(lastScrollTop - st) <= delta)
+                return;
+            
+            if (st > lastScrollTop ){
+                $('nav').css('top','-86px');
+            } else {
+                if(st + $(window).height() < $(document).height()) {
+                    $('nav').css('top','0px');
+                }
+            }
+            
+            lastScrollTop = st;
+        }
+    </script>
+    </body>
+</html>

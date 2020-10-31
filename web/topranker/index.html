@@ -1,0 +1,490 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <META http-equiv="Expires" content="-1">
+    <META http-equiv="Pragma" content="no-cache">
+    <META http-equiv="Cache-Control" content="No-Cache">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- MDBootstrap Datatables  -->
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- MDBootstrap Datatables  -->
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <title>Statistics - IIDX Info</title>
+
+    <style>
+        table td {
+            word-wrap: break-word;
+        }
+
+        .top1 {
+            word-wrap: normal;
+        }
+
+        .top3 {
+            word-wrap: normal;
+        }
+
+        @media (min-width: 768px) {
+            #user-dropmenu {
+                width: 300px;
+            }
+
+            .searchform {
+                width: 50%;
+            }
+        }
+
+        @media (max-width: 767px) {
+            #user-dropmenu {
+                width: 100%;
+            }
+
+            .searchform {
+                width: 100%;
+            }
+        }
+
+        table.dataTable tbody td {
+            padding-left: 16px;
+        }
+
+        .LastUpdate {
+            position: relative;
+            max-width: 768px;
+            margin: auto;
+        }
+
+        .LastUpdate a {
+            float: right;
+        }
+
+        .toggle_column {
+            text-align: right;
+            max-width: 768px;
+            margin: auto;
+            padding: 10px;
+        }
+
+        .toggle_button {
+            width: 150px;
+        }
+
+        
+    </style>
+
+    <script>
+            var mode = 0;
+            $(document).ready(function () {
+
+                var table;
+
+                $("#DJID").keyup(function (event) {
+                    if (event.keyCode == 13) {
+                        GotoUserpage();
+                    }
+                });
+
+                $.getJSON('./top1_ranker.json', function(data) {
+                    var html = [];
+
+                    $.each(data, function (i, item) {
+                        //console.log(item);
+                        html.push('<tr height="43" style = "cursor:pointer" onClick="location.href = \'../userinfo/?username=' + encodeURIComponent(item.DJID) + '\'">');
+                        html.push('<td class="DJID">' + item.Ranking + '</td>');
+                        html.push('<td class="DJID">' + item.DJName + '</td>');
+                        html.push('<td class="DJID">' + item.top1 + '</td>');
+                        html.push('</tr>');
+                    });
+
+                    $("#rankboard").html(html.join(''));
+
+
+
+                    table = $('#maintable').DataTable({
+                        "searching": false,
+                        "paging": false,
+                        "bInfo": false
+                    });
+
+                
+
+                    // $('tbody tr').click(function(){
+                    //     window.location = $(this).attr('href');
+                    //     return false;
+                    // });
+                    // $('.dataTables_length').addClass('bs-select');
+                });
+
+                $.getJSON('./top3_ranker.json', function (data) {
+                    var html = [];
+
+                    $.each(data, function (i, item) {
+                        //console.log(item);
+                        html.push('<tr height="43" style = "cursor:pointer" onClick="location.href = \'../userinfo/?username=' + encodeURIComponent(item.DJID) + '\'">');
+                        html.push('<td class="DJID">' + item.Ranking + '</td>');
+                        html.push('<td class="DJID">' + item.DJName + '</td>');
+                        html.push('<td class="DJID">' + item.top3 + '</td>');
+                        html.push('</tr>');
+                    });
+
+                    $("#rankboard2").html(html.join(''));
+
+
+
+                    table = $('#maintable2').DataTable({
+                        "searching": false,
+                        "paging": false,
+                        "bInfo": false
+                    });
+                });
+
+                $.getJSON('./top5_ranker.json', function (data) {
+                    var html = [];
+
+                    $.each(data, function (i, item) {
+                        //console.log(item);
+                        html.push('<tr height="43" style = "cursor:pointer" onClick="location.href = \'../userinfo/?username=' + encodeURIComponent(item.DJID) + '\'">');
+                        html.push('<td class="DJID">' + item.Ranking + '</td>');
+                        html.push('<td class="DJID">' + item.DJName + '</td>');
+                        html.push('<td class="DJID">' + item.top5 + '</td>');
+                        html.push('</tr>');
+                    });
+
+                    $("#rankboard3").html(html.join(''));
+
+
+
+                    table = $('#maintable3').DataTable({
+                        "searching": false,
+                        "paging": false,
+                        "bInfo": false
+                    });
+                });
+
+                $.getJSON('./top10_ranker.json', function (data) {
+                    var html = [];
+
+                    $.each(data, function (i, item) {
+                        //console.log(item);
+                        html.push('<tr height="43" style = "cursor:pointer" onClick="location.href = \'../userinfo/?username=' + encodeURIComponent(item.DJID) + '\'">');
+                        html.push('<td class="DJID">' + item.Ranking + '</td>');
+                        html.push('<td class="DJID">' + item.DJName + '</td>');
+                        html.push('<td class="DJID">' + item.top10 + '</td>');
+                        html.push('</tr>');
+                    });
+
+                    $("#rankboard4").html(html.join(''));
+
+
+
+                    table = $('#maintable4').DataTable({
+                        "searching": false,
+                        "paging": false,
+                        "bInfo": false
+                    });
+                });
+
+                $.getJSON('./fc_ranker.json', function (data) {
+                    var html = [];
+
+                    $.each(data, function (i, item) {
+                        //console.log(item);
+                        html.push('<tr height="43" style = "cursor:pointer" onClick="location.href = \'../userinfo/?username=' + encodeURIComponent(item.DJID) + '\'">');
+                        html.push('<td class="DJID">' + item.Ranking + '</td>');
+                        html.push('<td class="DJID">' + item.DJName + '</td>');
+                        html.push('<td class="DJID">' + item.fc + '</td>');
+                        html.push('</tr>');
+                    });
+
+                    $("#rankboard5").html(html.join(''));
+
+
+
+                    table = $('#maintable5').DataTable({
+                        "searching": false,
+                        "paging": false,
+                        "bInfo": false
+                    });
+                });
+
+                $.getJSON('./exh_ranker.json', function (data) {
+                    var html = [];
+
+                    $.each(data, function (i, item) {
+                        //console.log(item);
+                        html.push('<tr height="43" style = "cursor:pointer" onClick="location.href = \'../userinfo/?username=' + encodeURIComponent(item.DJID) + '\'">');
+                        html.push('<td class="DJID">' + item.Ranking + '</td>');
+                        html.push('<td class="DJID">' + item.DJName + '</td>');
+                        html.push('<td class="DJID">' + item.exh + '</td>');
+                        html.push('</tr>');
+                    });
+
+                    $("#rankboard6").html(html.join(''));
+
+
+
+                    table = $('#maintable6').DataTable({
+                        "searching": false,
+                        "paging": false,
+                        "bInfo": false
+                    });
+                });
+
+                $.getJSON('../last_update.json', function (data) {
+                    $.each(data, function (i, item) {
+                        $('#last_update').append("Last Update: " + item.Date);
+                    });
+                });
+
+            });
+
+            function toggle_top1() {
+                document.getElementById('maintable').style.display = '';
+                document.getElementById('maintable2').style.display = 'none';
+                document.getElementById('maintable3').style.display = 'none';
+                document.getElementById('maintable4').style.display = 'none';
+                document.getElementById('maintable5').style.display = 'none';
+                document.getElementById('maintable6').style.display = 'none';
+            };
+
+            function toggle_top3() {
+                document.getElementById('maintable').style.display = 'none';
+                document.getElementById('maintable2').style.display = '';
+                document.getElementById('maintable3').style.display = 'none';
+                document.getElementById('maintable4').style.display = 'none';
+                document.getElementById('maintable5').style.display = 'none';
+                document.getElementById('maintable6').style.display = 'none';
+            };
+
+            function toggle_top5() {
+                document.getElementById('maintable').style.display = 'none';
+                document.getElementById('maintable2').style.display = 'none';
+                document.getElementById('maintable3').style.display = '';
+                document.getElementById('maintable4').style.display = 'none';
+                document.getElementById('maintable5').style.display = 'none';
+                document.getElementById('maintable6').style.display = 'none';
+            };
+
+            function toggle_top10() {
+                document.getElementById('maintable').style.display = 'none';
+                document.getElementById('maintable2').style.display = 'none';
+                document.getElementById('maintable3').style.display = 'none';
+                document.getElementById('maintable4').style.display = '';
+                document.getElementById('maintable5').style.display = 'none';
+                document.getElementById('maintable6').style.display = 'none';
+            };
+
+            function toggle_fc() {
+                document.getElementById('maintable').style.display = 'none';
+                document.getElementById('maintable2').style.display = 'none';
+                document.getElementById('maintable3').style.display = 'none';
+                document.getElementById('maintable4').style.display = 'none';
+                document.getElementById('maintable5').style.display = '';
+                document.getElementById('maintable6').style.display = 'none';
+            };
+
+            function toggle_exh() {
+                document.getElementById('maintable').style.display = 'none';
+                document.getElementById('maintable2').style.display = 'none';
+                document.getElementById('maintable3').style.display = 'none';
+                document.getElementById('maintable4').style.display = 'none';
+                document.getElementById('maintable5').style.display = 'none';
+                document.getElementById('maintable6').style.display = '';
+            };
+
+            function search() {
+                var input = document.getElementById('searchinput');
+                var filter = input.value.toUpperCase();
+                var board = document.getElementById('rankboard');
+                var tr = board.getElementsByTagName('tr');
+                var ss = Number(document.getElementById('searchselect').value);
+                var td;
+
+
+                for (var i = 0; i < tr.length; i++)
+                {
+                    td = tr[i].getElementsByTagName('td')[0].innerText;
+                    if (td.toUpperCase().indexOf(filter) > -1){
+                        tr[i].style.display = "";
+                    }
+                    else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+
+            function GotoUserpage() {
+                var DJID = $("#DJID").val();
+                DJID = DJID.replace("-", "");
+                location.href = '../userinfo/index.html?username=' + encodeURIComponent(DJID);
+            }
+    </script>
+</head>
+    <body>
+        <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark" style="transition: top 0.2s ease-out" include-html="../header2.html">
+        </nav>
+        <div class="table-responsive" id="tbdv">
+            <div class="toggle_column">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                    <label class="btn btn-secondary active" onclick="toggle_top1()">
+                        <input type="radio" name="options" id="top1_button" autocomplete="off" checked> Top1
+                    </label>
+                    <label class="btn btn-secondary" onclick="toggle_top3()">
+                        <input type="radio" name="options" id="top3_button" autocomplete="off"> Top3
+                    </label>
+                    <label class="btn btn-secondary" onclick="toggle_top5()">
+                        <input type="radio" name="options" id="top3_button" autocomplete="off"> Top5
+                    </label>
+                    <label class="btn btn-secondary" onclick="toggle_top10()">
+                        <input type="radio" name="options" id="top3_button" autocomplete="off"> Top10
+                    </label>
+                    <label class="btn btn-secondary" onclick="toggle_fc()">
+                        <input type="radio" name="options" id="fc_button" autocomplete="off"> FC
+                    </label>
+                    <label class="btn btn-secondary" onclick="toggle_exh()">
+                        <input type="radio" name="options" id="exh_button" autocomplete="off"> EXH
+                    </label>
+                </div>
+            </div>
+            <div class="LastUpdate">
+                <a id="last_update"></a>
+            </div>
+            <table id="maintable" class="table table-hover mx-auto" style="max-width:768px; width:100%; table-layout : fixed; display: block-inline;">
+                <thead class="thead-light">
+                <th scope="col" class="top1" style="display:normal;">Top1 Ranking</th>
+                <th scope="col" class="top1" style="display:normal;">DJName</th>
+                <th scope="col" class="top1" style="display:normal;">Count</th>
+                </thead>
+                <tbody id="rankboard"></tbody>
+            </table>
+
+            <table id="maintable2" class="table table-hover mx-auto" style="max-width:768px; width:100%; table-layout : fixed; display: none;">
+                <thead class="thead-light">
+                <th scope="col" class="top3" style="display:normal;">Top3 Ranking</th>
+                <th scope="col" class="top3" style="display:normal;">DJName</th>
+                <th scope="col" class="top3" style="display:normal;">Count</th>
+                </thead>
+                <tbody id="rankboard2"></tbody>
+            </table>
+
+            <table id="maintable3" class="table table-hover mx-auto" style="max-width:768px; width:100%; table-layout : fixed; display: none;">
+                <thead class="thead-light">
+                <th scope="col" class="top3" style="display:normal;">Top5 Ranking</th>
+                <th scope="col" class="top3" style="display:normal;">DJName</th>
+                <th scope="col" class="top3" style="display:normal;">Count</th>
+                </thead>
+                <tbody id="rankboard3"></tbody>
+            </table>
+
+            <table id="maintable4" class="table table-hover mx-auto" style="max-width:768px; width:100%; table-layout : fixed; display: none;">
+                <thead class="thead-light">
+                <th scope="col" class="top3" style="display:normal;">Top10 Ranking</th>
+                <th scope="col" class="top3" style="display:normal;">DJName</th>
+                <th scope="col" class="top3" style="display:normal;">Count</th>
+                </thead>
+                <tbody id="rankboard4"></tbody>
+            </table>
+
+            <table id="maintable5" class="table table-hover mx-auto" style="max-width:768px; width:100%; table-layout : fixed; display: none;">
+                <thead class="thead-light">
+                <th scope="col" class="top3" style="display:normal;">FC Ranking</th>
+                <th scope="col" class="top3" style="display:normal;">DJName</th>
+                <th scope="col" class="top3" style="display:normal;">Count</th>
+                </thead>
+                <tbody id="rankboard5"></tbody>
+            </table>
+
+            <table id="maintable6" class="table table-hover mx-auto" style="max-width:768px; width:100%; table-layout : fixed; display: none;">
+                <thead class="thead-light">
+                <th scope="col" class="top3" style="display:normal;">EXH Ranking</th>
+                <th scope="col" class="top3" style="display:normal;">DJName</th>
+                <th scope="col" class="top3" style="display:normal;">Count</th>
+                </thead>
+                <tbody id="rankboard6"></tbody>
+            </table>
+        </div>
+
+    
+        <!-- Optional JavaScript -->
+    <script>
+        function includeHTML(callback) {
+            var z, i, elmnt, file, xhr;
+            /*loop through a collection of all HTML elements:*/
+            z = document.getElementsByTagName("*");
+            for (i = 0; i < z.length; i++) {
+                elmnt = z[i];
+                /*search for elements with a certain atrribute:*/
+                file = elmnt.getAttribute("include-html");
+                //console.log(file);
+                if (file) {
+                /*make an HTTP request using the attribute value as the file name:*/
+                xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (this.readyState == 4) {
+                    if (this.status == 200) {
+                        elmnt.innerHTML = this.responseText;
+                    }
+                    if (this.status == 404) {
+                        elmnt.innerHTML = "Page not found.";
+                    }
+                    /*remove the attribute, and call this function once more:*/
+                    elmnt.removeAttribute("include-html");
+                    includeHTML(callback);
+                    }
+                };
+                xhr.open("GET", file, true);
+                xhr.send();
+                /*exit the function:*/
+                return;
+                }
+            }
+            setTimeout(function() {
+                callback();
+            }, 0);
+        }
+
+        includeHTML();
+
+        var didScroll;
+        var lastScrollTop = 0;
+        var delta = 48;
+        var navbarHeight = $('nav').outerHeight();
+        $(window).scroll(function(event){
+            didScroll = true;
+        });
+        setInterval(function() {
+            if (didScroll) {
+                hasScrolled();
+                didScroll = false;
+            }
+        }, 250);
+        function hasScrolled() {
+            var st = $(this).scrollTop();
+            if(Math.abs(lastScrollTop - st) <= delta)
+                return;
+            
+            if (st > lastScrollTop ){
+                $('nav').css('top','-86px');
+            } else {
+                if(st + $(window).height() < $(document).height()) {
+                    $('nav').css('top','0px');
+                }
+            }
+            
+            lastScrollTop = st;
+        }
+    </script>
+    </body>
+</html>

@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <META http-equiv="Expires" content="-1">
+    <META http-equiv="Pragma" content="no-cache">
+    <META http-equiv="Cache-Control" content="No-Cache">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./common.css">
+    <!-- MDBootstrap Datatables  -->
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./common.js"></script>
+    <!-- MDBootstrap Datatables  -->
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <title>Compare - IIDX Info</title>
+
+</head>
+    <body>
+        <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark" style="transition: top 0.2s ease-out">
+            <a class="navbar-brand" href="../" style="font-size:xx-large">IIDX Info</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse my-md-0" style="float:right" id="navbarsExample04">
+                <ul class="navbar-nav mr-auto" style="font-size:large">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="../playersearch">Search</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="../compare">Compare</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="../lampstatistics">Statistics</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userpage-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Userpage</a>
+                        <div class="dropdown-menu" id="user-dropmenu" style="padding-left:6px;padding-right:6px;" aria-labelledby="dropdownMenuButton">
+                            <input class="form-control" id="DJID" type="text" placeholder="DJID" style="margin-bottom:6px" />
+                            <input type="button" class="btn btn-dark" value="Go" onclick="GotoUserpage()" />
+                        </div>
+                    </li>
+                </ul>
+                <form class="searchform mt-3" onsubmit="return false;">
+                    <div class="form-row mr-0">
+                        <div class="form-group col-md-4 col-lg-4">
+                            <select class="form-control" onchange="search()" id="searchselect">
+                                <option value="0">Title</option>
+                                <option value="1">DJID</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-8 col-lg-8">
+                            <input class="form-control" onkeyup="search()" id="searchinput" type="text" placeholder="Search">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </nav>
+        <div id="player_table_toggle_button">
+            <input id="player_search_toggle" class="btn btn-secondary col-sm-12" data-toggle="collapse" href="#player_table_collapse" type="button" aria-expanded="false" aria-controls="collapseExample" value="Open Player Search" onclick="toggle_player_table()">
+        </div>
+        <div class="collapse" id="player_table_collapse">
+            <div class="d-flex pt-3 px-4 mx-auto my-2 pb-2 border-bottom" style="max-width: 768px;">
+                <form class="w-100" onsubmit="return false;">
+                    <label>Search Player</label>
+                    <div class="form-group row">
+
+                        <div class="col-sm-8 col-md-9">
+                            <input type="text" class="form-control w-100" id="DJName_search" style="width:100px;" />
+                        </div>
+                        <div class="col-sm-4 col-md-3">
+                            <input type="button" class="btn btn-secondary" style="width:100%; float:right" id="search_player" value="Search" onclick="searchplayer()" />
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="table-responsive" id="tbdv">
+
+                <table id="search_player_table" class="table mx-auto" style="max-width:768px; width:100%; table-layout : fixed;">
+                    <thead class="thead-light">
+                        <tr id="player_table_head">
+                            <th scope="col" class="DJName">DJName</th>
+                            <th scope="col" class="DJID">DJID</th>
+                            <th scope="col" class="Dani">Class</th>
+                            <th scope="col" class="Region">Region</th>
+                            <th scope="col" class="Arena">Arena</th>
+                        </tr>
+                    </thead>
+                    <tbody id="playerboard" class="border-bottom"></tbody>
+                </table>
+            </div>
+        </div>
+        
+        <hr style="max-width:768px;" />
+        <div class="d-flex pt-3 px-4 mx-auto my-2 pb-2 border-bottom" style="max-width: 768px;">
+            <form class="w-100" onsubmit="return false;">
+                <div class="form-group row">
+
+                    <div class="col-sm-6 col-md-3">
+                        <label>Player1</label>
+                        <input type="text" class="form-control w-100" id="player1" style="width:100px;" />
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label>Player2</label>
+                        <input type="text" class="form-control w-100" id="player2" style="width:100px;" />
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label>Player3</label>
+                        <input type="text" class="form-control w-100" id="player3" style="width:100px;" />
+                    </div>
+                    <div class="col-sm-6 col-md-3">
+                        <label>Player4</label>
+                        <input type="text" class="form-control w-100" id="player4" style="width:100px;" />
+                    </div>
+                </div>
+                <div class="form-gorup row">
+                    <div class="col-sm-12">
+                        <button type="button" class="btn btn-secondary" style="width:100%; float:right" id="compare" value="compare" onclick="comp()">Compare</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="table-responsive" id="tbdv">
+
+            <table id="maintable" class="table mx-auto" style="max-width:768px; width:100%; table-layout : fixed;">
+                <thead class="thead-light">
+                    <tr id="table_head">
+                        <th scope="col" class="Title table" style="width:30%">Title</th>
+                        <th scope="col" class="Player1_col">Player1</th>
+                        <th scope="col" class="Player2_col">Player2</th>
+                        <th scope="col" class="Player3_col">Player3</th>
+                        <th scope="col" class="Player4_col">Player4</th>
+                        <th scope="col" class="win_count">Win</th>
+                    </tr>
+                </thead>
+                <tbody id="rankboard"></tbody>
+            </table>
+            <div class="LastUpdate">
+                <a>Last Update: 2019/09/12</a>
+            </div>
+        </div>
+
+
+        <!-- Optional JavaScript -->
+        <script>
+        var didScroll;
+        var lastScrollTop = 0;
+        var delta = 48;
+        var navbarHeight = $('nav').outerHeight();
+        $(window).scroll(function(event){
+            didScroll = true;
+        });
+        setInterval(function() {
+            if (didScroll) {
+                hasScrolled();
+                didScroll = false;
+            }
+        }, 250);
+        function hasScrolled() {
+            var st = $(this).scrollTop();
+            if(Math.abs(lastScrollTop - st) <= delta)
+                return;
+
+            if (st > lastScrollTop ){
+                $('nav').css('top','-86px');
+            } else {
+                if(st + $(window).height() < $(document).height()) {
+                    $('nav').css('top','0px');
+                }
+            }
+
+            lastScrollTop = st;
+        }
+        </script>
+    </body>
+</html>

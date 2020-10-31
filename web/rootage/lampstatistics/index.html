@@ -1,0 +1,362 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <META http-equiv="Expires" content="-1">
+    <META http-equiv="Pragma" content="no-cache">
+    <META http-equiv="Cache-Control" content="No-Cache">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- MDBootstrap Datatables  -->
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- MDBootstrap Datatables  -->
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <title>Statistics - IIDX Info</title>
+
+    <style>
+        table td {
+            word-wrap: break-word;
+        }
+
+        .count {
+            word-wrap: normal;
+        }
+
+        .percentage {
+            word-wrap: normal;
+        }
+
+        @media (min-width: 576px) {
+            table td {
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 575px) {
+            table td {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            table td {
+                font-size: 13px;
+            }
+        }
+
+        @media (min-width: 845px) {
+            .Title {
+                width: 40%;
+            }
+        }
+
+        @media (max-width: 844px) {
+            .Title {
+                width: 30%;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .Title {
+                width: 20%;
+            }
+        }
+
+        @media (min-width: 768px) {
+            #user-dropmenu {
+                width: 300px;
+            }
+
+            .searchform {
+                width: 50%;
+            }
+        }
+
+        @media (max-width: 767px) {
+            #user-dropmenu {
+                width: 100%;
+            }
+
+            .searchform {
+                width: 100%;
+            }
+        }
+
+        table.dataTable tbody td {
+            padding-left: 16px;
+        }
+
+        .LastUpdate {
+            position: relative;
+            max-width: 768px;
+            margin: auto;
+        }
+
+            .LastUpdate a {
+                float: right;
+            }
+
+        .toggle_column {
+            text-align: right;
+            max-width: 768px;
+            margin: auto;
+            padding: 10px;
+        }
+
+        .toggle_button {
+            width: 80px;
+        }
+    </style>
+
+    <script>
+            var mode = 0;
+            $(document).ready(function () {
+
+                var table;
+
+                $("#DJID").keyup(function (event) {
+                    if (event.keyCode == 13) {
+                        GotoUserpage();
+                    }
+                });
+
+                $.getJSON('./PlayCount.json', function(data) {
+                    var html = [];
+
+                    function jsonsort(a, b) {
+                        if (a.Title > b.Title) {
+                            return 1;
+                        }
+                        else {
+                            return -1;
+                        }
+                    }
+
+                    data.sort(jsonsort);
+
+                    $.each(data, function (i, item) {
+                        //console.log(item);
+                        html.push('<tr height="43" style = "cursor:pointer" onClick="location.href = \'../songinfo/?title=' + encodeURIComponent(item.Title) + '\'">');
+                        html.push('<td class="Title" >' + item.Title + '</td>');
+                        html.push('<td class="count" style="display:normal;">' + item.FC + '</td>');
+                        html.push('<td class="count" style="display:normal;">' + item.EX + '</td>');
+                        html.push('<td class="count" style="display:normal;">' + item.HC + '</td>');
+                        html.push('<td class="count" style="display:normal;">' + item.CL + '</td>');
+                        html.push('<td class="count" style="display:normal;">' + item.EC + '</td>');
+                        html.push('<td class="count" style="display:normal;">' + item.AC + '</td>');
+                        html.push('<td class="count" style="display:normal;">' + item.FL + '</td>');
+                        html.push('<td class="percentage" style="display:normal;">' + ((item.FC) / item.PlayCount * 100).toFixed(2) + "%" + '</td>');
+                        html.push('<td class="percentage" style="display:normal;">' + ((item.FC + item.EX) / item.PlayCount * 100).toFixed(2) + "%" + '</td>');
+                        html.push('<td class="percentage" style="display:normal;">' + ((item.FC + item.EX + item.HC) / item.PlayCount * 100).toFixed(2) + "%" + '</td>');
+                        html.push('<td class="percentage" style="display:normal;">' + ((item.FC + item.EX + item.HC + item.CL) / item.PlayCount * 100).toFixed(2) + "%" + '</td>');
+                        html.push('<td class="percentage" style="display:normal;">' + ((item.FC + item.EX + item.HC + item.CL + item.EC) / item.PlayCount * 100).toFixed(2) + "%" + '</td>');
+                        html.push('<td class="percentage" style="display:normal;">' + ((item.FC + item.EX + item.HC + item.CL + item.EC + item.AC) / item.PlayCount * 100).toFixed(2) + "%" + '</td>');
+                        html.push('</tr>');
+                    });
+
+                    $("#rankboard").html(html.join(''));
+
+
+
+                    table = $('#maintable').DataTable({
+                        "searching": false,
+                        "paging": false,
+                        "bInfo": false
+                    });
+
+                    // Get the column API object
+                    var column = table.column([1,2,3,4,5,6,7]);
+                    // Toggle the visibility
+                    table.columns([1, 2, 3, 4, 5, 6, 7]).visible(false);
+
+                    $('.toggle-vis').on('click', function (e) {
+                        e.preventDefault();
+
+                        var i;
+                        // Get the column API object
+                        // Toggle the visibility\
+                        if (mode == 0) {
+                            mode = 1;
+                            table.columns([1, 2, 3, 4, 5, 6, 7]).visible(true);
+                            table.columns([8, 9, 10, 11, 12, 13]).visible(false);
+
+                            $('.toggle_button').val("Total");
+                        }
+                        else if (mode == 1) {
+                            mode = 0;
+                            table.columns([1, 2, 3, 4, 5, 6, 7]).visible(false);
+                            table.columns([8, 9, 10, 11, 12, 13]).visible(true);
+
+                            $('.toggle_button').val("%");
+                        }
+
+
+                    });
+
+                    // $('tbody tr').click(function(){
+                    //     window.location = $(this).attr('href');
+                    //     return false;
+                    // });
+                    // $('.dataTables_length').addClass('bs-select');
+                });
+            });
+
+            function search() {
+                var input = document.getElementById('searchinput');
+                var filter = input.value.toUpperCase();
+                var board = document.getElementById('rankboard');
+                var tr = board.getElementsByTagName('tr');
+                var ss = Number(document.getElementById('searchselect').value);
+                var td;
+
+
+                for (var i = 0; i < tr.length; i++)
+                {
+                    td = tr[i].getElementsByTagName('td')[0].innerText;
+                    if (td.toUpperCase().indexOf(filter) > -1){
+                        tr[i].style.display = "";
+                    }
+                    else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+
+            function GotoUserpage() {
+                var DJID = $("#DJID").val();
+                DJID = DJID.replace("-", "");
+                location.href = '../userinfo/index.html?username=' + encodeURIComponent(DJID);
+            }
+
+            function hide_percentage() {
+                $('.percentage').style('display', 'none');
+            }
+
+            function hide_count() {
+            }
+
+            function toggle() {
+                if (mode == 0) {
+                    mode = 1;
+                    hide_count();
+                } else if (mode == 1) {
+                    mode = 0;
+                    hide_percentage();
+                }
+
+            }
+    </script>
+</head>
+    <body>
+        <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark" style="transition: top 0.2s ease-out">
+            <a class="navbar-brand" href="../" style="font-size:xx-large">IIDX Info</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample04" aria-controls="navbarsExample04" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse my-md-0" style="float:right" id="navbarsExample04">
+                <ul class="navbar-nav mr-auto" style="font-size:large">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="../playersearch">Search</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="../compare">Compare</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="../lampstatistics">Statistics</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userpage-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Userpage</a>
+                        <div class="dropdown-menu" id="user-dropmenu" style="padding-left:6px;padding-right:6px;" aria-labelledby="dropdownMenuButton">
+                            <input class="form-control" id="DJID" type="text" placeholder="DJID" style="margin-bottom:6px" />
+                            <input type="button" class="btn btn-dark" value="Go" onclick="GotoUserpage()" />
+                        </div>
+                    </li>
+                </ul>
+                <form class="searchform mt-3" onsubmit="return false;">
+                    <div class="form-row mr-0">
+                        <div class="form-group col-md-4 col-lg-4" >
+                            <select class="form-control" onchange="search()" id="searchselect">
+                                <option value = "0">Title</option>
+                                <option value = "1">DJID</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-8 col-lg-8">
+                            <input class="form-control" onkeyup="search()" id="searchinput" type="text" placeholder="Search">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </nav>
+        <div class="table-responsive" id="tbdv">
+            <div class="toggle_column">
+                <input type="button" class="btn btn-secondary toggle_button toggle-vis" value="%">
+            </div>
+            <div class="LastUpdate">
+                <a>Last Update: 2019/12/31</a>
+            </div>
+            <table id="maintable" class="table table-hover mx-auto" style="max-width:768px; width:100%; table-layout : fixed;">
+                <thead class="thead-light">
+                <th scope="col" class="Title">Title</th>
+                <th scope="col" class="count" style="display:normal;">FC</th>
+                <th scope="col" class="count" style="display:normal;">EX</th>
+                <th scope="col" class="count" style="display:normal;">HC</th>
+                <th scope="col" class="count" style="display:normal;">CL</th>
+                <th scope="col" class="count" style="display:normal;">EC</th>
+                <th scope="col" class="count" style="display:normal;">AC</th>
+                <th scope="col" class="count" style="display:normal;">FL</th>
+                <th scope="col" class="percentage" style="display:normal;">FC</th>
+                <th scope="col" class="percentage" style="display:normal;">EX</th>
+                <th scope="col" class="percentage" style="display:normal;">HC</th>
+                <th scope="col" class="percentage" style="display:normal;">CL</th>
+                <th scope="col" class="percentage" style="display:normal;">EC</th>
+                <th scope="col" class="percentage" style="display:normal;">AC</th>
+                </thead>
+                <tbody id="rankboard"></tbody>
+            </table>
+        </div>
+
+    
+        <!-- Optional JavaScript -->
+    <script>
+        var didScroll;
+        var lastScrollTop = 0;
+        var delta = 48;
+        var navbarHeight = $('nav').outerHeight();
+        $(window).scroll(function(event){
+            didScroll = true;
+        });
+        setInterval(function() {
+            if (didScroll) {
+                hasScrolled();
+                didScroll = false;
+            }
+        }, 250);
+        function hasScrolled() {
+            var st = $(this).scrollTop();
+            if(Math.abs(lastScrollTop - st) <= delta)
+                return;
+            
+            if (st > lastScrollTop ){
+                $('nav').css('top','-86px');
+            } else {
+                if(st + $(window).height() < $(document).height()) {
+                    $('nav').css('top','0px');
+                }
+            }
+            
+            lastScrollTop = st;
+        }
+    </script>
+    </body>
+</html>

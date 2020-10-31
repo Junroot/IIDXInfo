@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <META http-equiv="Expires" content="-1">
+    <META http-equiv="Pragma" content="no-cache">
+    <META http-equiv="Cache-Control" content="No-Cache">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./common.css">
+    <!-- MDBootstrap Datatables  -->
+    <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./common.js"></script>
+    <!-- MDBootstrap Datatables  -->
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <title>Player Search - IIDX Info</title>
+</head>
+    <body>
+        <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark" style="transition: top 0.2s ease-out" include-html="../header2.html">
+        </nav>
+            <div class="d-flex pt-3 px-4 mx-auto my-2 pb-2 border-bottom" style="max-width: 768px;">
+                <form class="w-100" onsubmit="return false;">
+                    <label>Search Player</label>
+                    <div class="form-group row">
+
+                        <div class="col-sm-8 col-md-9">
+                            <input type="text" class="form-control w-100" id="DJName_search" style="width:100px;" />
+                        </div>
+                        <div class="col-sm-4 col-md-3">
+                            <input type="button" class="btn btn-secondary" style="width:100%; float:right" id="search_player" value="Search" onclick="searchplayer()" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="table-responsive" id="tbdv">
+
+                <table id="maintable" class="table mx-auto" style="max-width:768px; width:100%; table-layout : fixed;">
+                    <thead class="thead-light">
+                        <tr id="player_table_head">
+                            <th scope="col" class="DJName">DJName</th>
+                            <th scope="col" class="DJID">DJID</th>
+                            <th scope="col" class="Dani">Class</th>
+                            <th scope="col" class="Region">Region</th>
+                            <th scope="col" class="Arena">Arena</th>
+                        </tr>
+                    </thead>
+                    <tbody id="playerboard" class="border-bottom"></tbody>
+                </table>
+            </div>
+
+
+        <!-- Optional JavaScript -->
+        <script>
+        includeHTML();
+
+        var didScroll;
+        var lastScrollTop = 0;
+        var delta = 48;
+        var navbarHeight = $('nav').outerHeight();
+        $(window).scroll(function(event){
+            didScroll = true;
+        });
+        setInterval(function() {
+            if (didScroll) {
+                hasScrolled();
+                didScroll = false;
+            }
+        }, 250);
+        function hasScrolled() {
+            var st = $(this).scrollTop();
+            if(Math.abs(lastScrollTop - st) <= delta)
+                return;
+
+            if (st > lastScrollTop ){
+                $('nav').css('top','-86px');
+            } else {
+                if(st + $(window).height() < $(document).height()) {
+                    $('nav').css('top','0px');
+                }
+            }
+
+            lastScrollTop = st;
+        }
+        </script>
+    </body>
+</html>

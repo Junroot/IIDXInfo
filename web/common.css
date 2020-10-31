@@ -1,0 +1,80 @@
+a, a:hover, a:focus{
+    color: inherit;
+    text-decoration: inherit;
+}
+
+table td {
+    word-wrap:break-word; 
+    padding: 0px!important;
+}
+
+table a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    line-height: 20px;
+}
+
+.Title {
+    padding: 12px;
+}
+
+.DJ {
+    padding: 2px 12px;
+    word-wrap: normal;
+    word-break: normal;
+}
+
+.Score {
+    padding: 12px;
+    word-wrap: normal;
+    word-break: normal;
+}
+
+@media (min-width: 576px) {
+    table td{
+        font-size: 16px;
+    }
+    .DJID{
+        float:right;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 575px) {
+    table td {
+        font-size: 14px;
+    }
+    .DJID{
+        float:right;
+        font-size:12px;
+    }
+}
+
+@media (min-width: 768px) {
+    #user-dropmenu {
+        width: 300px;
+    }
+    .searchform {
+        width: 50%;
+    }
+}
+
+@media (max-width: 767px) {
+    #user-dropmenu {
+        width: 100%;
+    }
+    .searchform {
+        width: 100%;
+    }
+}
+
+.LastUpdate{
+    position:relative;
+    max-width: 768px;
+    margin:auto;
+}
+
+.LastUpdate a{
+    float:right;
+}

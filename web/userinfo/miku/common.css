@@ -1,0 +1,166 @@
+a, a:hover, a:focus{
+    color: inherit;
+    text-decoration: inherit;
+}
+
+table td {
+    word-wrap:break-word;
+    padding: 0px!important;
+}
+
+.Score{
+    word-wrap: normal;
+    word-break: normal;
+}
+
+.Lamp {
+    word-wrap: normal;
+    word-break: normal;
+}
+
+.Ranking {
+    word-wrap: normal;
+    word-break: normal;
+}
+
+.Percentage {
+    word-wrap: normal;
+    word-break: normal;
+}
+
+table th {
+    padding: 12px 0px!important;
+}
+
+table a{
+    display: block;
+    width: 100%;
+    height: 100%;
+    line-height: 20px;
+    padding: 12px;
+}
+
+
+
+@media (min-width: 576px) {
+    table td{
+            font-size: 16px;
+    }
+    .Title {
+        width: 35%;
+    }
+    .Score {
+        width: 13%;
+    }
+    .Lamp {
+        width: 13%;
+    }
+    .Rank {
+        display: normal;
+        width: 13%;
+    }
+    .Ranking {
+        width: 13%;
+    }
+    .Percentage {
+        width: 13%;
+    }
+}
+
+@media (max-width: 575px) {
+    table td{
+        font-size: 14px;
+    }
+    .Title {
+        width: 40%;
+    }
+    .Score {
+        width: 15%;
+    }
+    .Lamp {
+        width: 13%;
+    }
+    .Rank {
+        display: none;
+    }
+    .Ranking {
+        width: 15%;
+    }
+    .Percentage{
+        width: 17%;
+    }
+}
+
+@media(min-width: 651px){
+    
+}
+
+@media(max-width: 650px){
+    
+}
+
+@media (min-width: 768px) {
+    #user-dropmenu {
+        width: 300px;
+    }
+    .searchform {
+        width: 50%;
+    }
+}
+
+@media (max-width: 767px) {
+    #user-dropmenu {
+        width: 100%;
+    }
+    .searchform {
+        width: 100%;
+    }
+}
+
+.Title{
+    text-align: center;
+}
+
+.Score{
+    text-align: center;
+}
+
+.Lamp{
+    text-align:center;
+}
+
+.Rank{
+    text-align:center;
+}
+
+.Ranking{
+    text-align:center;
+}
+
+.Percentage{
+    text-align:center;
+}
+
+.LastUpdate {
+    position: relative;
+    max-width: 768px;
+    margin: auto;
+}
+
+.LastUpdate a {
+    float: right;
+}
+
+.detail {
+    position: relative;
+    max-width: 768px;
+    margin: auto;
+}
+
+.detail a {
+    float: right;
+}
+
+.LampSort{
+    float:left;
+}

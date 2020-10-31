@@ -11,7 +11,7 @@ $ node iidxloginHV/login.js
 ```bash
 1 4
 ```
-3. Transfer your data by classifying in /iidxinfo_update_HV
+3. Transfer your data by classifying in `/iidxinfo_update_HV`
 4. Obtain the necessary data on the website.:
 ``` bash
 $ node iidxinfo_update_HV/update.js

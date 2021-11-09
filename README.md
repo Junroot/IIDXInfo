@@ -1,7 +1,7 @@
 # IIDXInfo
 This website publishes information on ☆12's data about 10dan [http://iidx.info]
 
-If you need some requests or contacts, please use this Twiter account [https://twitter.com/iidx_info]
+If you need some requests or contacts, please use this Twitter account [https://twitter.com/iidx_info]
 ## Usage
 1. Crawl official beatmania IIDX website:
 ```bash
